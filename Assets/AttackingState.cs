@@ -32,6 +32,14 @@ class AttackingState:State
 
     public override void Update()
     {
+		////ammo code
+		if (myGameObject.GetComponent<Ammo>().ammo <= 0){
+			myGameObject.GetComponent<StateMachine>().SwitchState(new FindAmmo(myGameObject));
+	
+
+		}
+		////ammo  code
+	
         float range = 5.0f;
         timeShot += Time.deltaTime;
         float fov = Mathf.PI / 4.0f;
@@ -52,6 +60,7 @@ class AttackingState:State
                 if (timeShot > 0.25f)//attacks at rate of 4 per second ==== yessss
                 {
                     GameObject lazer = new GameObject();
+					myGameObject.GetComponent<Ammo>().ammo -= 1;////subtract 1 ammo whne fire lazer
                     lazer.AddComponent<Lazer>();
 					lazer.AddComponent<LineRenderer>();
                     lazer.transform.position = myGameObject.transform.position;
