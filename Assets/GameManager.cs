@@ -18,18 +18,25 @@ public class GameManager : MonoBehaviour {//create 10 ammo pickups and 5 bots he
        // teaser.renderer.material.color = Color.blue;
 
 		for(int i = 0; i < 10; i++){//create 10 ammo in scene
-			Vector3 victor = new Vector3 (Random.Range(-30,30), 0f , Random.Range(-30,30));//spawn at random x and z coord
+			Vector3 victor = new Vector3 (Random.Range(-30,30), 0f , Random.Range(-20,20));//spawn at random x and z coord
 			ammo1 = Instantiate(ammo, victor ,Quaternion.identity) as GameObject;
 			ammo1.renderer.material.color = Color.red;
 		}
 
 		for(int i = 0; i < 5; i++){//create 5 bots in scene
 			Vector3 victor = new Vector3 (Random.Range(-30,30), 0f , Random.Range(-30,30));//spawn at random x and z coord
-			ammo1 = Instantiate(ammo, victor ,Quaternion.identity) as GameObject;
-			ammo1.renderer.material.color = Color.blue;
+			bot1 = Instantiate(bot, victor ,Quaternion.identity) as GameObject;
+			bot1.renderer.material.color = Color.blue;
 		}
 
-        
+
+		GameObject [] allBots = GameObject.FindGameObjectsWithTag("bot");//an array with all bots in scene
+		////set up initial state for bots
+		foreach(GameObject go in allBots){
+	   		 go.GetComponent<StateMachine>().SwitchState(new IdleState(go));//patrol state
+		}
+
+			
 	}
 	
 	// Update is called once per frame

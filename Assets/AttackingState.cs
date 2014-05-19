@@ -6,16 +6,16 @@ using System;
 class AttackingState:State
 {
     float timeShot = 0.25f;
-    GameObject enemyGameObject;
+  //  GameObject enemyGameObject;
 
     public override string Description()
     {
         return "Attacking State";
     }
 
-    public AttackingState(GameObject myGameObject, GameObject enemyGameObject):base(myGameObject)
+    public AttackingState(GameObject myGameObject):base(myGameObject)
     {
-        this.enemyGameObject = enemyGameObject;
+      //  this.enemyGameObject = enemyGameObject;
     }
 
     public override void Enter()
@@ -23,7 +23,7 @@ class AttackingState:State
         myGameObject.GetComponent<SteeringBehaviours>().TurnOffAll();
         myGameObject.GetComponent<SteeringBehaviours>().OffsetPursuitEnabled = true;
         myGameObject.GetComponent<SteeringBehaviours>().offsetPursuitOffset = new Vector3(0, 0, 5);
-        myGameObject.GetComponent<SteeringBehaviours>().offsetPursueTarget = enemyGameObject;
+        myGameObject.GetComponent<SteeringBehaviours>().offsetPursueTarget = myGameObject;
     }
 
     public override void Exit()
@@ -37,14 +37,14 @@ class AttackingState:State
         float fov = Mathf.PI / 4.0f;
         // Can I see the enemy?
 
-        if ((enemyGameObject.transform.position - myGameObject.transform.position).magnitude > range)
+        if ((myGameObject.transform.position - myGameObject.transform.position).magnitude > range)
         {
-            myGameObject.GetComponent<StateMachine>().SwitchState(new IdleState(myGameObject, enemyGameObject));
+            myGameObject.GetComponent<StateMachine>().SwitchState(new IdleState(myGameObject));
         }
         else
         {
             float angle;
-            Vector3 toEnemy = (enemyGameObject.transform.position - myGameObject.transform.position);
+            Vector3 toEnemy = (myGameObject.transform.position - myGameObject.transform.position);
             toEnemy.Normalize();
             angle = (float) Math.Acos(Vector3.Dot(toEnemy, myGameObject.transform.forward));
             if (angle < fov)
