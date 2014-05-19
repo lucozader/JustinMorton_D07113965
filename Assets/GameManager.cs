@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {//create 10 ammo pickups and 5 bots he
 	GameObject bot1;
 	public GameObject ammo;
 	GameObject ammo1;
+
+
 	// Use this for initialization
 	void Start () {
        // GameObject leader = GameObject.FindGameObjectWithTag("leader");
@@ -16,6 +18,8 @@ public class GameManager : MonoBehaviour {//create 10 ammo pickups and 5 bots he
 
       //  leader.renderer.material.color = Color.red;
        // teaser.renderer.material.color = Color.blue;
+
+
 
 		for(int i = 0; i < 10; i++){//create 10 ammo in scene
 			Vector3 victor = new Vector3 (Random.Range(-30,30), 0f , Random.Range(-20,20));//spawn at random x and z coord

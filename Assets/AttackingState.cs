@@ -6,24 +6,24 @@ using System;
 class AttackingState:State
 {
     float timeShot = 0.25f;
-  //  GameObject enemyGameObject;
+    GameObject enemyGameObject;
 
     public override string Description()
     {
         return "Attacking State";
     }
 
-    public AttackingState(GameObject myGameObject):base(myGameObject)
+    public AttackingState(GameObject myGameObject,GameObject enemyGameObject):base(myGameObject)
     {
-      //  this.enemyGameObject = enemyGameObject;
+       this.enemyGameObject = enemyGameObject;
     }
 
     public override void Enter()
     {
         myGameObject.GetComponent<SteeringBehaviours>().TurnOffAll();
         myGameObject.GetComponent<SteeringBehaviours>().OffsetPursuitEnabled = true;
-        myGameObject.GetComponent<SteeringBehaviours>().offsetPursuitOffset = new Vector3(0, 0, 5);
-        myGameObject.GetComponent<SteeringBehaviours>().offsetPursueTarget = myGameObject;
+        myGameObject.GetComponent<SteeringBehaviours>().offsetPursuitOffset = new Vector3(0, 0, 2);
+        myGameObject.GetComponent<SteeringBehaviours>().offsetPursueTarget = enemyGameObject;
     }
 
     public override void Exit()
@@ -32,27 +32,28 @@ class AttackingState:State
 
     public override void Update()
     {
-        float range = 10.0f;
+        float range = 5.0f;
         timeShot += Time.deltaTime;
         float fov = Mathf.PI / 4.0f;
         // Can I see the enemy?
 
-        if ((myGameObject.transform.position - myGameObject.transform.position).magnitude > range)
+        if ((enemyGameObject.transform.position - myGameObject.transform.position).magnitude > range)//if attacking bot loses sight then go to patrolling
         {
             myGameObject.GetComponent<StateMachine>().SwitchState(new IdleState(myGameObject));
         }
         else
         {
             float angle;
-            Vector3 toEnemy = (myGameObject.transform.position - myGameObject.transform.position);
+            Vector3 toEnemy = (enemyGameObject.transform.position - myGameObject.transform.position);
             toEnemy.Normalize();
             angle = (float) Math.Acos(Vector3.Dot(toEnemy, myGameObject.transform.forward));
             if (angle < fov)
             {
-                if (timeShot > 0.25f)
+                if (timeShot > 0.25f)//attacks at rate of 4 per second ==== yessss
                 {
                     GameObject lazer = new GameObject();
                     lazer.AddComponent<Lazer>();
+					lazer.AddComponent<LineRenderer>();
                     lazer.transform.position = myGameObject.transform.position;
                     lazer.transform.forward = myGameObject.transform.forward;
                     timeShot = 0.0f;

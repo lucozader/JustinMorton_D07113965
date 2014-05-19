@@ -17,6 +17,12 @@ class Lazer:MonoBehaviour
             Destroy(gameObject);
         }
         transform.position += transform.forward * speed;
-        Debug.DrawLine(transform.position, transform.position + transform.forward * 10.0f, Color.red);
+        //Debug.DrawLine(transform.position, transform.position + transform.forward * 10.0f, Color.red);//use linerenderer instead
+		LineRenderer pro = gameObject.GetComponent<LineRenderer>();
+		pro.SetWidth(0.4f,0.4f);
+		pro.material.color = Color.red;
+		pro.SetPosition(0,  transform.position);    
+		pro.SetPosition(1,  transform.position + transform.forward * 10.0f);     
+
     }
 }
