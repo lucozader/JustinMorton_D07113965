@@ -41,7 +41,12 @@ public class FindAmmo:State
 
 
 		}
-		myGameObject.GetComponent<SteeringBehaviours>().path.Waypoints.Add(allAmmo[temp2].transform.position);//go to nearest ammo coords
+		myGameObject.GetComponent<SteeringBehaviours>().TurnOffAll();
+
+		myGameObject.GetComponent<SteeringBehaviours>().SeekEnabled = true;
+
+		myGameObject.GetComponent<SteeringBehaviours>().seekPos=(allAmmo[temp2].transform.position);//go to nearest ammo coords
+
 		//myGameObject.GetComponent<SteeringBehaviours>().path.Waypoints.Add(new Vector3(UnityEngine.Random.Range(-30,30), 0,UnityEngine.Random.Range(-20,20)));//create second random point
 		//myGameObject.AddComponent<LineRenderer>();
 		//LineRenderer pro = myGameObject.GetComponent<LineRenderer>();//linerenderer = no need for gizmos
@@ -54,18 +59,18 @@ public class FindAmmo:State
 		
 		//myGameObject.GetComponent<SteeringBehaviours>().path.Looped = true;            
 		//  myGameObject.GetComponent<SteeringBehaviours>().path.draw = true;  ///use linerenderer instead
-		myGameObject.GetComponent<SteeringBehaviours>().TurnOffAll();
-		myGameObject.GetComponent<SteeringBehaviours>().FollowPathEnabled = true;
+		//myGameObject.GetComponent<SteeringBehaviours>().TurnOffAll();
+		//myGameObject.GetComponent<SteeringBehaviours>().FollowPathEnabled = true;
 		
 	}
 	public override void Exit()
 	{
-		myGameObject.GetComponent<SteeringBehaviours>().path.Waypoints.Clear();
+		//myGameObject.GetComponent<SteeringBehaviours>().path.Waypoints.Clear();
 	}
 	
 	public override void Update()
 	{
-		if((allAmmo[temp2].transform.position - myGameObject.transform.position).magnitude < 1){//if reach ammo dump
+		if((allAmmo[temp2].transform.position - myGameObject.transform.position).magnitude < 2){//if reach ammo dump
 			myGameObject.GetComponent<Ammo>().ammo = 10;////reset ammo to 10
 
 			myGameObject.GetComponent<StateMachine>().SwitchState(new IdleState(myGameObject));//go back to patrolling

@@ -6,6 +6,12 @@ using UnityEngine;
 
 class Lazer:MonoBehaviour
 {
+	GameObject [] allBots;
+
+	public void Start(){
+	allBots = GameObject.FindGameObjectsWithTag("bot");//an array with all bots in scene
+
+	}
     public void Update()
     {
         float speed = 5.0f;
@@ -22,7 +28,20 @@ class Lazer:MonoBehaviour
 		pro.SetWidth(0.4f,0.4f);
 		pro.material.color = Color.red;
 		pro.SetPosition(0,  transform.position);    
-		pro.SetPosition(1,  transform.position + transform.forward * 10.0f);     
+		pro.SetPosition(1,  transform.position + transform.forward * 10.0f);  
+
+	
+		foreach(GameObject go in allBots){///see if bot hit by lazer here
+			if((go.transform.position-transform.forward * 10.0f).magnitude<1){
+				go.GetComponent<Health>().health -= 1;//subtract 1 health from bot if hit by lazer
+				Destroy(gameObject);//destroy lazer
+				//if(go.GetComponent<Health>().health<=0){//destroy bot if health <= 0
+					//Destroy(go);
+				//}
+			}
+
+		}
+
 
     }
 }

@@ -28,7 +28,8 @@ public class IdleState:State
     {
 		myGameObject.GetComponent<SteeringBehaviours>().path.Waypoints.Add(new Vector3(UnityEngine.Random.Range(-30,30), 0, UnityEngine.Random.Range(-20,20)));//create random point
 		myGameObject.GetComponent<SteeringBehaviours>().path.Waypoints.Add(new Vector3(UnityEngine.Random.Range(-30,30), 0,UnityEngine.Random.Range(-20,20)));//create second random point
-		myGameObject.AddComponent<LineRenderer>();
+		if(myGameObject.GetComponent<LineRenderer>() == null){
+			myGameObject.AddComponent<LineRenderer>();}
 		LineRenderer pro = myGameObject.GetComponent<LineRenderer>();//linerenderer = no need for gizmos
 		pro.SetWidth(0.4f,0.4f);
 		pro.material.color = Color.green;

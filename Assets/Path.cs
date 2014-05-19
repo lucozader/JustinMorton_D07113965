@@ -28,7 +28,8 @@ public class Path
 
     public Vector3 NextWaypoint()
     {
-        return Waypoints[next];
+
+			return Waypoints[next];
     }
 
     public bool IsLast()
